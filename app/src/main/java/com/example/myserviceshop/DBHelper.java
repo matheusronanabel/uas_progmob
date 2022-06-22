@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.Nullable;
+
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context){
         super(context, "ProductData.db", null,1);
@@ -30,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("fieldHargaJual", fieldHargaJual);
 
         long result=DB.insert("ProductDetails", null, contentValues);
-        if (result==1){
+        if (result == -1){
             return false;
         } else {
             return true;
@@ -44,9 +46,9 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("fieldJumlahStock", fieldJumlahStock);
         contentValues.put("fieldHargaJual", fieldHargaJual);
         Cursor cursor = DB.rawQuery("Select * from ProductDetails where fieldNamaBarang=?", new String[]{fieldNamaBarang});
-        if (cursor.getCount()>0) {
+        if (cursor.getCount() > 0) {
             long result = DB.update("ProductDetails", contentValues, "fieldNamaBarang=?", new String[]{fieldNamaBarang});
-            if (result == 1) {
+            if (result == -1) {
                 return false;
             } else {
                 return true;
